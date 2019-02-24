@@ -1,0 +1,19 @@
+{
+  "name": "bamazon_ag",
+  "version": "1.0.0",
+  "description": "bamazon project for full stack bootcamp",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "seed": "node ./seeds/seed-db.js"
+  },
+  "author": "Adam Garner",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mysql": "^2.16.0",
+    "mysql2": "^1.6.5",
+    "sequelize": "^4.42.0"
+  }
+}
