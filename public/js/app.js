@@ -12,42 +12,60 @@ $(function () {
                     <td class="price">${products[i].price}</td>
                     <td class="stock_quantity">${products[i].stock_quantity}</td>
                     <td class="purchase_quantity"><input id="qtyId${products[i].id}" data-prodID="${products[i].id}" type="number" name="quantity" min="0" max="${products[i].stock_quantity}"></input></td>
-                    <td class="addCart"><button class="btn-success addToCart" id="addId${products[i].id}" data-prodID="${products[i].id}">Add to Cart</button></td>
+                    <td class="addCart"><button class="btn-success addToCart" id="addId${products[i].id}" data-prodID="${products[i].id}" data-stockQty="${products[i].stock_quantity}">Add to Cart</button></td>
                 </tr>
             `);
             document.getElementById(`addId${products[i].id}`).addEventListener("click", addToCart);
         }
     }
 
-    $.ajax({
-        method: 'GET',
-        url: '/api/products',
-    }).then(function (data) {
-        console.log(data);
-        render(data);
-    });
+    const renderProducts = function () {
+        console.log("i'm working")
+         $.ajax({
+            method: 'GET',
+            url: '/api/products',
+        }).then(function (data) {
+            console.log(data);
+            $('tbody').empty();
+            render(data);
+        });
+        console.log("I worked");
+    }
+
+    renderProducts();
 
 
     const addToCart = function(e) {
         e.preventDefault();
+
         console.log("This is working");
         let updateID = $(this).attr('data-prodID');
         console.log(updateID);
-        let updateQty = ($(`#qtyId${updateID}`).val());
-        console.log(updateQty);
-
+        let totalQty = $(this).attr(`data-stockQty`);
+        console.log(totalQty);
+        let subtractQty = ($(`#qtyId${updateID}`).val());
+        console.log(subtractQty);
         
+
+    if (totalQty >= subtractQty && totalQty !== 0) {
+        let updatedQty = totalQty - subtractQty;
+        console.log(updatedQty);
 
         $.ajax({
             method: 'PUT',
-            url: `/api/products/:${updateID}`,
+            url: `/api/products/${updateID}`,
             data: {
-                "stock_quantity": this.stock_quantity - updateQty
+                "stock_quantity": updatedQty
             }
         }).then(function(data) {
             console.log(data);
+            $(`#qtyId${updateID}`).val("");
+            renderProducts();
+        });
+        } else {
+            alert("We do not have any more in stock.");
+        }
     
-        })
     
     };
 

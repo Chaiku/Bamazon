@@ -12,7 +12,7 @@ module.exports = function(app) {
     });
 
     app.get('/api/products/:id', function(req,res) {
-        db.Products.findOne({where: {id: req.params.id}}
+        db.Product.findOne({where: {id: req.params.id}}
     ).then(function(data) {
             res.json(data)
         }).catch(function(error) {
@@ -21,7 +21,7 @@ module.exports = function(app) {
     });
 
     app.put('/api/products/:id', function(req,res) {
-        db.Products.update(req.body, {where:{id: req.params.id} }
+        db.Product.update(req.body, {where:{id: req.params.id} }
     ).then(function() {
             res.json({success: true});
         }).catch(function(error) {
