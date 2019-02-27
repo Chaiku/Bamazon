@@ -1,4 +1,7 @@
 module.exports = function(connection,Sequelize) {
+
+    
+
     const Product = connection.define('Product', {
         product_name: {
             type: Sequelize.STRING,
